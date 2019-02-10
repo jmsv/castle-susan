@@ -1,31 +1,26 @@
-from flask import Flask
+dev_mode=1
+
+from flask import Flask, jsonify
 app = Flask(__name__)
 
 import serial
 
-# ser = serial.Serial()
-# ser.baudrate = 9600
-# ser.port = 'COM3'
-# ser.open()
-
-# print(ser.name)
-# ser.write(b's')
-# ser.close()
+if !dev_mode:
+    ser = serial.Serial()
+    ser.baudrate = 9600
+    ser.port = 'COM3'
+    ser.open()
+    print('connection:', ser)
 
 @app.route('/api/ok')
 def ok():
-    return 'ok'
+    if dev_mode: return jsonify({ open: False })
 
-@app.route('/api/cmd/<char>')
-def cmd(char):
-    print(char)
+    ser.write(b'k')
+    return jsonify({ open: ser.is_open })
 
-@app.route('/api/is-open')
-def is_open():
-    return ser.is_open
-
-try:
-    app.run(port=5000)
-except Exception as e:
-    # ser.close()
-    print(e)
+@app.route('/api/cmd/<cmd>')
+def cmd(cmd):
+    print('running cmd:', cmd)
+    if !dev_mode: ser.write(cmd.encode())
+    return 'done'
