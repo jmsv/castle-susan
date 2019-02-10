@@ -4,7 +4,7 @@ app = Flask(__name__)
 import serial
 
 # ser = serial.Serial()
-# ser.baudrate = 696969696969696969696969696969696969696969696969
+# ser.baudrate = 9600
 # ser.port = 'COM3'
 # ser.open()
 
