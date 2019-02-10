@@ -13,6 +13,7 @@ void setup() {
   Serial.begin(9600);
   Serial.print("started serial server");
 
+  annoying_noise();
   ok();
 }
 
@@ -46,10 +47,6 @@ void process_cmd() {
       ok(); break;
     case 'b':
       annoying_noise(); break;
-
-    // Fallback to playing annoying error noise
-    default:
-      unknown_cmd(); break;
   }
 }
 
@@ -62,7 +59,7 @@ void drawb_calibrate(int sign) {
 
 void drawb_down() {
   motor.drive(-255);
-  delay(2800);
+  delay(2700);
   motor.stop();
 }
 
@@ -73,7 +70,7 @@ void drawb_up() {
 }
 
 void annoying_noise() {
-  return; // shut up
+  // return; // shut up
   for (int i = 9000; i > 99; i -= 30) {
     tone(BEEPER, i, 5);
     delay(3);
@@ -85,10 +82,7 @@ void annoying_noise() {
 }
 
 void ok() { // weird noise thing
-  for (int i = 2; i < 3; i++) {
-    tone(BEEPER, i * 1000, 100);
-    delay(250);
-  }
+  tone(BEEPER, 2000, 150);
 }
 
 void unknown_cmd() {
